@@ -1,0 +1,44 @@
+[workspace]
+value_file = "signac_statepoint.json"
+
+[[action]]
+name = "init_tenpy_simulation_run"
+command = '''
+python3 scripts/init_tenpy_simulation_run.py \
+    --directory={directory} \
+'''
+products = ["run_tenpy_simulation.py"]
+[action.resources]
+walltime.per_submission = "00:00:01"
+[action.group]
+maximum_size =1
+
+
+[[action]]
+name = "run_tenpy_simulation_local"
+command = '(cd workspace/{directory} && nohup python3 run_tenpy_simulation.py --config_file=signac_statepoint.json &)'
+products = ["results_simulation.h5"]
+previous_actions = ["init_tenpy_simulation_run"]
+[action.group]
+maximum_size=1
+
+
+[[action]]
+name = "fit_entropy_per_unit"
+command = '(cd workspace/{directory} && python3 ../../scripts/fit_entropy_per_unit.py)'
+products = ["entropy_plot_per_unit.png"]
+previous_actions = ["run_tenpy_simulation_local"]
+[action.group]
+maximum_size=1
+
+
+
+[[action]]
+name = "finite_chi_scaling"
+command = '(cd workspace/{directory} && python3 ../../scripts/finite_chi_scaling.py)'
+previous_actions = ["run_tenpy_simulation_local"]
+products = ["finite_chi_scaling_data_fits.csv", "finite_chi_scaling_data_fits.csv"]
+[action.group]
+maximum_size=1
+
+

@@ -1,0 +1,23 @@
+name: Rogerson_et_al_Virtual_Rishon_Formulation
+channels:
+  - conda-forge
+dependencies:
+  - h5py
+  - ipykernel
+  - ipython
+  - jinja2
+  - matplotlib
+  - nbformat
+  - numpy
+  - pandas
+  - physics-tenpy==1.0.6
+  - pip
+  - plotnine
+  - pydantic
+  - python=3.10
+  - row
+  - scipy
+  - signac
+  - uncertainties
+  - pip:
+    - -e .
